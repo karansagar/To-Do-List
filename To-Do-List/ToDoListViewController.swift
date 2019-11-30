@@ -10,12 +10,22 @@ import UIKit
 
 class ToDoListViewController: UITableViewController {
     
+    //Object
+    //Database
+    
+    //UserDefaults saves in PLIST.
+    //everything need to be there has key valye pairs.
+    var defaults = UserDefaults()
+    
     var itemArray = ["Save Bombay", "Give umbrella to Bunty", "Go kantabai's shop"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
+        if let items = defaults.array(forKey: "toDoListArr") as? [String] {
+            itemArray = items
+        }
     }
     
     //MARK:- TableView Datasource Method
@@ -62,6 +72,9 @@ class ToDoListViewController: UITableViewController {
                 print("Please add item")
             } else {
                 self.itemArray.append(textfield.text!)
+                
+                //Adding data to userDefaults.
+                self.defaults.set(self.itemArray, forKey: "toDoListArr")
                 self.tableView.reloadData()
             }
         }
